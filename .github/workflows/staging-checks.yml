@@ -16,6 +16,7 @@ jobs:
         with:
           go-version: ^1.17
 
+      - run: go env
       - run: go get github.com/joho/godotenv/cmd/godotenv
       - run: export GOPATH=$HOME/go      
       - run: export PATH=$PATH:$GOPATH/bin
