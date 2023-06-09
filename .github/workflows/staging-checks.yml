@@ -18,7 +18,7 @@ jobs:
 
       - run: go get github.com/joho/godotenv/cmd/godotenv
 
-      - run: ls $HOME/go  
+      - run: ls $HOME/go/bin
 
       - run: godotenv
      
