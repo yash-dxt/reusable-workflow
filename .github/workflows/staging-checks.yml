@@ -38,6 +38,9 @@ jobs:
           --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
           --profile prod
 
+      - name: download npm dependencies
+        run: npm ci
+
       - name: Deploy to Staging
         run: npm run deploy:prod
       
