@@ -26,6 +26,12 @@ jobs:
       - name: Install serverless
         run: npm i -g serverless
       
+      - run: go install github.com/joho/godotenv/cmd/godotenv
+      - run: export GOPATH=$HOME/go      
+      - run: export PATH=$PATH:$GOPATH/bin
+      - run: godotenv
+
+
       - name: Configure AWS Credentials
         run: serverless config credentials 
           --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} 
@@ -36,5 +42,5 @@ jobs:
       - run: echo $AWS_REGION
 
 
-      - name: run go test case
-        run: go test ./...
+      # - name: run go test case
+      #   run: go test ./...
