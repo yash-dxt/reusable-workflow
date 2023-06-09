@@ -19,7 +19,7 @@ jobs:
       - name: Install serverless
         run: npm i -g serverless
       
-      - run: go install github.com/joho/godotenv/cmd/godotenv
+      - run: go get github.com/joho/godotenv/cmd/godotenv
       - run: export GOPATH=$HOME/go      
       - run: export PATH=$PATH:$GOPATH/bin
       - run: godotenv
