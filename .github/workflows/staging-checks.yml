@@ -7,8 +7,8 @@ on:
       build-and-verify:
         description: 'Do a build and verify'
         required: true
-        default: true 
-        type: boolean
+        default: 'true' 
+        type: string
   
 jobs:
   build:
