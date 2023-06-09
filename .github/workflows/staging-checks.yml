@@ -16,10 +16,10 @@ jobs:
         with:
           go-version: ^1.8
 
-      - run: go env
       - run: go get github.com/joho/godotenv/cmd/godotenv
-      - run: export GOPATH=$HOME/go      
-      - run: export PATH=$PATH:$GOPATH/bin
+
+      - run: ls $HOME/go  
+
       - run: godotenv
      
       - name: Install serverless
