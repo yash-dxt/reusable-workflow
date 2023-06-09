@@ -2,11 +2,17 @@ name: staging checks
 
 on:
   workflow_call:
-
+    # Defaults here are for worflow_dispatch only, all other events are set in EnvSetup.setup-output-defaults:
+    inputs:
+      build-and-verify:
+        description: 'Do a build and verify'
+        required: true
+        default: true 
+        type: boolean
+  
 jobs:
   build:
     runs-on: ubuntu-latest
-
     name: Deploy staging, run tests (go lang & api tests)
     steps:
       - name: Checkout code
