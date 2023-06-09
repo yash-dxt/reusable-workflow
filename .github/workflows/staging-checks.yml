@@ -8,15 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy staging, run tests (go lang & api tests)
     steps:
-
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
           go-version: ^1.8
-
-      # - run: go install github.com/joho/godotenv/cmd/godotenv@latest
-      # - run: ls $HOME/go/bin
-      # - run: godotenv
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -28,14 +23,23 @@ jobs:
       - name: Install serverless
         run: npm i -g serverless
       
-      - name: Configure AWS Credentials
+      - name: Configure AWS Credentials for Testing (default)
         run: serverless config credentials 
           --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} 
           --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
           --profile default
 
-      - run: echo $TABLE_GAME
-      - run: echo $AWS_REGION
-
-      - name: run go test case
+      - name: Run Golang Tests
         run: godotenv -f ./.env.test go test ./...
+
+      - name: Configure AWS Credentials (staging)
+        run: serverless config credentials 
+          --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} 
+          --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+          --profile prod
+
+      - name: Deploy to Staging
+        run: npm run deploy:prod
+      
+      
+
