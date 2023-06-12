@@ -4,21 +4,12 @@ on:
   workflow_call:
   
 jobs:
-  build:
+  staging-checks:
     runs-on: ubuntu-latest
     name: Deploy staging, run tests (go lang & api tests)
     steps:
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: ^1.8
-
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - run: go install github.com/joho/godotenv/cmd/godotenv@latest
-      - run: ls $HOME/go/bin
-      - run: godotenv
      
       - name: Install serverless
         run: npm i -g serverless
@@ -29,6 +20,14 @@ jobs:
           --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
           --profile default
 
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.8
+
+      - name: Install godotenv
+        run: go install github.com/joho/godotenv/cmd/godotenv@latest
+
       - name: Run Golang Tests
         run: godotenv -f ./.env.test go test ./...
 
@@ -36,13 +35,15 @@ jobs:
         run: serverless config credentials 
           --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} 
           --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
-          --profile prod
+          --profile staging
 
-      - name: download npm dependencies
+      - name: Download npm dependencies
         run: npm ci
 
       - name: Deploy to Staging
-        run: npm run deploy:prod
+        run: npm run deploy:staging
+
+
       
       
 

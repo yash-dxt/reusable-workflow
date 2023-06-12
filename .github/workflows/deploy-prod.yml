@@ -1,0 +1,27 @@
+name: deploy to prod
+
+on:
+  workflow_call:
+
+jobs: 
+  deploy-prod:
+    runs-on: ubuntu-latest
+    name: Deploy staging, run tests (go lang & api tests)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+     
+      - name: Install serverless
+        run: npm i -g serverless
+      
+      - name: Configure AWS Credentials for Testing (prod)
+        run: serverless config credentials 
+          --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} 
+          --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+          --profile prod
+    
+      - name: Download npm dependencies
+        run: npm ci
+
+      - name: Deploy to Prod
+        run: npm run deploy:prod
