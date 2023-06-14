@@ -21,9 +21,7 @@ jobs:
           --profile default
 
       - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: ^1.8
+        run: npm run setup
 
       - name: Run Golang Tests
         run: npm run test
