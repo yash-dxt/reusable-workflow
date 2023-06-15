@@ -20,17 +20,17 @@ jobs:
           --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
           --profile default
 
-      - name: Set up Go
-        run: npm run setup
-
-      - name: Run Golang Tests
-        run: npm run test
-
       - name: Configure AWS Credentials (staging)
         run: serverless config credentials 
           --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} 
           --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
           --profile staging
+
+      - name: Set up language dependencies
+        run: npm run setup-lang-deps
+
+      - name: Run golang tests
+        run: npm run test
 
       - name: Download npm dependencies
         run: npm ci
